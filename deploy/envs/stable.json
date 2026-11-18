@@ -1,6 +1,6 @@
 {
-  "$comment": "BES stable: every v* tag. What customers preview before their own test site.",
-  "appUrl": "https://<stable-site>.azurestaticapps.net",
+  "$comment": "BES stable: every v* tag. What customers preview before their own test site. Static Web App poc-stable (rg-swa-poc).",
+  "appUrl": "https://icy-forest-05e6f7e0f.3.azurestaticapps.net",
   "requireTag": true,
   "hosting": { "tenant": "BES", "resourceGroup": "rg-swa-poc", "swaName": "poc-stable", "customDomain": null },
   "frameAncestors": ["https://bentearsolutions.sharepoint.com", "https://teams.microsoft.com"],

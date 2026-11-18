@@ -1,6 +1,6 @@
 {
-  "$comment": "A customer's test site, standing in for KYEM test. Lives in the customer's Azure (simulate with a second subscription or resource group). Deployed by hand from a tag.",
-  "appUrl": "https://<acme-test-site>.azurestaticapps.net",
+  "$comment": "A customer's test site, standing in for KYEM test. Lives in the customer's Azure (simulate with a second subscription or resource group). Deployed by hand from a tag. Static Web App acme-poc-test (rg-acme-poc).",
+  "appUrl": "https://gray-sand-0e6e8570f.5.azurestaticapps.net",
   "requireTag": true,
   "hosting": { "tenant": "Acme", "resourceGroup": "rg-acme-poc", "swaName": "acme-poc-test", "customDomain": "poc-test.acme.example" },
   "frameAncestors": ["https://acme.sharepoint.com"],

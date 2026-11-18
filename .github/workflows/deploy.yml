@@ -1,0 +1,106 @@
+# Build once, deploy per environment.
+#   push to main                         -> dev
+#   push a v* tag                        -> stable, plus the release package on a GitHub Release
+#   Run workflow on a v* tag + a target  -> that target (acme-test, acme-prod). Run it on an older tag to roll back.
+#
+# Each target is:
+#   deploy/envs/<target>.json            its profile: public config, embed origins, address (committed)
+#   a GitHub Environment named <target>  holding SWA_TOKEN, that site's deployment token (the same name everywhere)
+# A new target needs both, plus a line in the options list below. Nothing else in this file changes.
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Environment to deploy. Customer targets only deploy from a v* tag (pick it under "Use workflow from").
+        type: choice
+        required: true
+        options: [dev, stable, acme-test, acme-prod]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      target: ${{ steps.target.outputs.target }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Pick the target
+        id: target
+        env:
+          TARGET_INPUT: ${{ inputs.target }}
+        run: node scripts/target.mjs
+      - run: npm test
+      - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ needs.build.outputs.target }}
+    concurrency:
+      group: deploy-${{ needs.build.outputs.target }}
+      cancel-in-progress: false
+    env:
+      TARGET: ${{ needs.build.outputs.target }}
+    steps:
+      # Profiles and scripts at the same commit as the build.
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - uses: actions/download-artifact@v4
+        with:
+          name: release
+          path: release
+      - name: Configure the build for this environment
+        run: node scripts/configure.mjs --env "$TARGET" --site release/site
+      - name: Deploy to Azure Static Web Apps
+        env:
+          SWA_CLI_DEPLOYMENT_TOKEN: ${{ secrets.SWA_TOKEN }}
+        run: |
+          if [ -z "$SWA_CLI_DEPLOYMENT_TOKEN" ]; then echo "::error::The $TARGET environment has no SWA_TOKEN secret (Settings -> Environments -> $TARGET)"; exit 1; fi
+          npx --yes @azure/static-web-apps-cli@2 deploy ./release/site --api-location ./release/api --api-language node --api-version 22 --env production
+      - name: Check the live site
+        run: node scripts/smoke.mjs --env "$TARGET" --build release/site/build.json
+      - name: Summary
+        run: |
+          v=$(node -p "require('./release/site/build.json').version")
+          echo "Deployed $v (${GITHUB_SHA::7}) to **$TARGET**" >> "$GITHUB_STEP_SUMMARY"
+
+  package:
+    # For a customer who deploys BES's releases themselves: the same build, unconfigured, with the configure tool.
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release
+          path: release
+      - name: Attach the release package to a GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          zip_name="swa-deploy-poc-$TAG.zip"
+          (cd release && zip -qr "../$zip_name" .)
+          sha256sum "$zip_name" > "$zip_name.sha256"
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --generate-notes "$zip_name" "$zip_name.sha256"

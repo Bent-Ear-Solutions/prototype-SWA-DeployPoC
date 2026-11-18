@@ -1,0 +1,14 @@
+{
+  "$comment": "BES stable: every v* tag. What customers preview before their own test site.",
+  "appUrl": "https://<stable-site>.azurestaticapps.net",
+  "requireTag": true,
+  "hosting": { "tenant": "BES", "resourceGroup": "rg-swa-poc", "swaName": "poc-stable", "customDomain": null },
+  "frameAncestors": ["https://bentearsolutions.sharepoint.com", "https://teams.microsoft.com"],
+  "config": {
+    "environment": "stable",
+    "label": "Stable · BES",
+    "portalUrl": "https://bentear.maps.arcgis.com",
+    "clientId": "poc-stable-client-id",
+    "banner": "#2E7D32"
+  }
+}

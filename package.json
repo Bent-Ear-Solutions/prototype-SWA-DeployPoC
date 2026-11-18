@@ -1,0 +1,16 @@
+{
+  "name": "swa-deploy-poc",
+  "private": true,
+  "type": "module",
+  "description": "Hello-world proof of the SPARC/KERMIT deployment model: build once, configure per environment, deploy with GitHub Environments.",
+  "scripts": {
+    "test": "node --test",
+    "build": "node scripts/build.mjs",
+    "configure": "node scripts/configure.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "preview": "node scripts/build.mjs && node scripts/configure.mjs --env local --site dist/site && npx --yes @azure/static-web-apps-cli@2 start dist/site --api-location dist/api"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

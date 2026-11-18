@@ -1,0 +1,14 @@
+{
+  "$comment": "BES dev: every merge to main. Replace <dev-site> with the Static Web App's default hostname once it exists.",
+  "appUrl": "https://<dev-site>.azurestaticapps.net",
+  "requireTag": false,
+  "hosting": { "tenant": "BES", "resourceGroup": "rg-swa-poc", "swaName": "poc-dev", "customDomain": null },
+  "frameAncestors": ["https://bentearsolutions.sharepoint.com", "https://teams.microsoft.com"],
+  "config": {
+    "environment": "dev",
+    "label": "Dev · BES",
+    "portalUrl": "https://bentear.maps.arcgis.com",
+    "clientId": "poc-dev-client-id",
+    "banner": "#1D76DB"
+  }
+}

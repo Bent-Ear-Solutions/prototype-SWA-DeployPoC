@@ -1,0 +1,14 @@
+{
+  "$comment": "A customer's production site, standing in for KYEM prod. Deployed by hand from a tag the customer signed off on test; give its GitHub environment a required reviewer.",
+  "appUrl": "https://<acme-prod-site>.azurestaticapps.net",
+  "requireTag": true,
+  "hosting": { "tenant": "Acme", "resourceGroup": "rg-acme-poc", "swaName": "acme-poc-prod", "customDomain": "poc.acme.example" },
+  "frameAncestors": ["https://acme.sharepoint.com"],
+  "config": {
+    "environment": "acme-prod",
+    "label": "Production · Acme",
+    "portalUrl": "https://acme.maps.arcgis.com",
+    "clientId": "acme-prod-client-id",
+    "banner": "#A4262C"
+  }
+}

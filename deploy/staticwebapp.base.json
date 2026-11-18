@@ -1,0 +1,17 @@
+{
+  "$comment": "Template for each site's staticwebapp.config.json. scripts/configure.mjs adds the Content-Security-Policy (frame-ancestors from the env profile) and writes the result next to the site's files.",
+  "platform": { "apiRuntime": "node:22" },
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/*.{js,css,json,svg,png,ico}"]
+  },
+  "globalHeaders": {
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "strict-origin-when-cross-origin"
+  },
+  "routes": [
+    { "route": "/index.html", "headers": { "Cache-Control": "no-cache" } },
+    { "route": "/config.json", "headers": { "Cache-Control": "no-cache" } },
+    { "route": "/build.json", "headers": { "Cache-Control": "no-cache" } }
+  ]
+}

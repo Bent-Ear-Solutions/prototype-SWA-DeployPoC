@@ -1,0 +1,14 @@
+{
+  "$comment": "Local preview with the SWA CLI (npm run preview). Never deployed.",
+  "appUrl": "http://localhost:4280",
+  "requireTag": false,
+  "hosting": { "tenant": "local", "resourceGroup": null, "swaName": null, "customDomain": null },
+  "frameAncestors": [],
+  "config": {
+    "environment": "local",
+    "label": "Local preview",
+    "portalUrl": "https://www.arcgis.com",
+    "clientId": "local-client-id",
+    "banner": "#555555"
+  }
+}

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SWA deploy PoC</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="banner"><span id="env-label">Loading…</span></header>
+  <main>
+    <h1>Hello from the deploy PoC</h1>
+    <p class="lead">The same build runs on every site. Only <code>config.json</code> and <code>staticwebapp.config.json</code> differ, and they're written at deploy time.</p>
+
+    <section id="error" class="error" hidden></section>
+
+    <section id="details" hidden>
+      <h2>Build (identical on every site)</h2>
+      <dl id="build"></dl>
+      <h2>Site config (from this environment's profile)</h2>
+      <dl id="config"></dl>
+      <h2>API (settings held in this site's Azure)</h2>
+      <dl id="api"></dl>
+    </section>
+  </main>
+  <script type="module" src="main.js"></script>
+</body>
+</html>

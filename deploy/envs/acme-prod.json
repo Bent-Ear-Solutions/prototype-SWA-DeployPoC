@@ -1,6 +1,6 @@
 {
-  "$comment": "A customer's production site, standing in for KYEM prod. Deployed by hand from a tag the customer signed off on test; give its GitHub environment a required reviewer.",
-  "appUrl": "https://<acme-prod-site>.azurestaticapps.net",
+  "$comment": "A customer's production site, standing in for KYEM prod. Deployed by hand from a tag the customer signed off on test; its GitHub environment has a required reviewer. Static Web App acme-poc-prod (rg-acme-poc).",
+  "appUrl": "https://green-ground-035e7a20f.6.azurestaticapps.net",
   "requireTag": true,
   "hosting": { "tenant": "Acme", "resourceGroup": "rg-acme-poc", "swaName": "acme-poc-prod", "customDomain": "poc.acme.example" },
   "frameAncestors": ["https://acme.sharepoint.com"],

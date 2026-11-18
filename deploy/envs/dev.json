@@ -1,6 +1,6 @@
 {
-  "$comment": "BES dev: every merge to main. Replace <dev-site> with the Static Web App's default hostname once it exists.",
-  "appUrl": "https://<dev-site>.azurestaticapps.net",
+  "$comment": "BES dev: every merge to main. Static Web App poc-dev (rg-swa-poc).",
+  "appUrl": "https://blue-tree-09c64520f.5.azurestaticapps.net",
   "requireTag": false,
   "hosting": { "tenant": "BES", "resourceGroup": "rg-swa-poc", "swaName": "poc-dev", "customDomain": null },
   "frameAncestors": ["https://bentearsolutions.sharepoint.com", "https://teams.microsoft.com"],
